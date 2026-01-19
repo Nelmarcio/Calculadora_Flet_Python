@@ -24,8 +24,9 @@ def main(page: ft.Page):
     page.padding = 1
     page.bgcolor = "#000000"
 
-    # Ícone da janela (desktop). Não falha se a propriedade não existir.
-    assets_icon = Path(__file__).with_name("assets") / "app.ico"
+    # Ícone da janela (desktop). No PyInstaller, os arquivos vão para sys._MEIPASS (ex.: _internal).
+    base_dir = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+    assets_icon = base_dir / "assets" / "app.ico"
     if assets_icon.exists() and hasattr(page.window, "icon"):
         page.window.icon = str(assets_icon)
 
